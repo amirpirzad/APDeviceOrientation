@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "APDeviceOrientation"
-  spec.version      = "0.6"
+  spec.version      = "0.7"
   spec.summary      = "Detect device orientation"
 
   spec.description  = <<-DESC
@@ -17,4 +17,5 @@ Pod::Spec.new do |spec|
 
   spec.source        = { :git => "https://github.com/amirpirzad/APDeviceOrientation.git", :tag => "#{spec.version}" }
   spec.source_files  = "APDeviceOrientation/*.{h,m,swift}"
+  spec.exclude_files = "APDeviceOrientation/*.plist"
 end
