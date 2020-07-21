@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreMotion
-import AVFoundation
 
 public protocol APDeviceOrientationDelegate: class {
     func didChange(orientation: UIDeviceOrientation)

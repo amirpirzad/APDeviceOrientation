@@ -1,11 +1,11 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "APDeviceOrientation"
-  spec.version      = "0.0.3"
-  spec.summary      = "this library detect device orientation"
+  spec.version      = "0.0.5"
+  spec.summary      = "Detect device orientation"
 
   spec.description  = <<-DESC
-This CocoaPods library helps you detect device orientation using motion.
+  This library helps you detect the device orientation using motion even if the rotation is locked.
                    DESC
 
   spec.homepage     = "https://github.com/amirpirzad/APDeviceOrientation"
