@@ -34,6 +34,7 @@
 			children = (
 				C026537024C713B100360AE3 /* APDeviceOrientation */,
 				C026536F24C713B100360AE3 /* Products */,
+				C0EE2BD224C739D600CE5C1C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -53,6 +54,13 @@
 				C026537224C713B100360AE3 /* Info.plist */,
 			);
 			path = APDeviceOrientation;
+			sourceTree = "<group>";
+		};
+		C0EE2BD224C739D600CE5C1C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -93,6 +101,7 @@
 		C026536524C713B100360AE3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = pirzad;
 				TargetAttributes = {
@@ -268,7 +277,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6SJB5VUPKW;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -280,7 +289,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = amirpirzad.com.APDeviceOrientation;
+				PRODUCT_BUNDLE_IDENTIFIER = amirpirzad.com.APDeviceOrientation.t;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -295,7 +304,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6SJB5VUPKW;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -307,7 +316,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = amirpirzad.com.APDeviceOrientation;
+				PRODUCT_BUNDLE_IDENTIFIER = amirpirzad.com.APDeviceOrientation.t;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;

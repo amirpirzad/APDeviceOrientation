@@ -10,29 +10,29 @@ import UIKit
 import CoreMotion
 import AVFoundation
 
-protocol APDeviceOrientationDelegate: class {
-    func didChange(deviceOrientation: UIDeviceOrientation)
+public protocol APDeviceOrientationDelegate: class {
+    func didChange(orientation: UIDeviceOrientation)
 }
 
 public class APDeviceOrientation {
+    // MARK: - PublicVariable
+    public static let shared = APDeviceOrientation()
+    public var delegate: APDeviceOrientationDelegate?
 
-    private let motionManager = CMMotionManager()
-    private let queue = OperationQueue()
-    private var deviceOrientation: UIDeviceOrientation = .unknown
-    weak var delegate: APDeviceOrientationDelegate?
+    // MARK: - PrivateVariable
+    private lazy var motionManager: CMMotionManager = {
+           let motion = CMMotionManager()
+           motion.accelerometerUpdateInterval = 0.1
+           return motion
+       }()
+    private var deviceOrientation: UIDeviceOrientation = UIDevice.current.orientation
 
-    init() {
-        motionManager.accelerometerUpdateInterval = 1.0
-        motionManager.deviceMotionUpdateInterval = 1.0
-        motionManager.gyroUpdateInterval = 1.0
-        motionManager.magnetometerUpdateInterval = 1.0
-    }
-
-    func startMeasuring() {
-        guard motionManager.isDeviceMotionAvailable else {
+    // MARK: - Lifecycle
+    public func startMeasuring() {
+        guard motionManager.isAccelerometerAvailable else {
             return
         }
-        motionManager.startAccelerometerUpdates(to: queue) { [weak self] (accelerometerData, error) in
+        motionManager.startAccelerometerUpdates(to: .main) { [weak self] (accelerometerData, error) in
             guard let strongSelf = self else {
                 return
             }
@@ -41,98 +41,90 @@ public class APDeviceOrientation {
             }
 
             let acceleration = accelerometerData.acceleration
-            let xx = -acceleration.x
-            let yy = acceleration.y
-            let z = acceleration.z
-            let angle = atan2(yy, xx)
-            var deviceOrientation = strongSelf.deviceOrientation
-            let absoluteZ = fabs(z)
+            let xxValue = -acceleration.x
+            let yyValue = acceleration.y
+            let zValue = acceleration.z
+            let angle = atan2(yyValue, xxValue)
+            var newDeviceOrientation = strongSelf.deviceOrientation
+            let absoluteZ = fabs(zValue)
 
-            if deviceOrientation == .faceUp || deviceOrientation == .faceDown {
+            if newDeviceOrientation == .faceUp || newDeviceOrientation == .faceDown {
                 if absoluteZ < 0.845 {
                     if angle < -2.6 {
-                        deviceOrientation = .landscapeRight
+                        newDeviceOrientation = .landscapeRight
                     } else if angle > -2.05 && angle < -1.1 {
-                        deviceOrientation = .portrait
+                        newDeviceOrientation = .portrait
                     } else if angle > -0.48 && angle < 0.48 {
-                        deviceOrientation = .landscapeLeft
+                        newDeviceOrientation = .landscapeLeft
                     } else if angle > 1.08 && angle < 2.08 {
-                        deviceOrientation = .portraitUpsideDown
+                        newDeviceOrientation = .portraitUpsideDown
                     }
-                } else if z < 0 {
-                    deviceOrientation = .faceUp
-                } else if z > 0 {
-                    deviceOrientation = .faceDown
+                } else if zValue < 0 {
+                    newDeviceOrientation = .faceUp
+                } else if zValue > 0 {
+                    newDeviceOrientation = .faceDown
                 }
             } else {
-                if z > 0.875 {
-                    deviceOrientation = .faceDown
-                } else if z < -0.875 {
-                    deviceOrientation = .faceUp
+                if zValue > 0.875 {
+                    newDeviceOrientation = .faceDown
+                } else if zValue < -0.875 {
+                    newDeviceOrientation = .faceUp
                 } else {
-                    switch deviceOrientation {
+                    switch newDeviceOrientation {
                     case .landscapeLeft:
                         if angle < -1.07 {
-                            deviceOrientation = .portrait
+                            newDeviceOrientation = .portrait
                         }
                         if angle > 1.08 {
-                            deviceOrientation = .portraitUpsideDown
+                            newDeviceOrientation = .portraitUpsideDown
                         }
                     case .landscapeRight:
                         if angle < 0 && angle > -2.05 {
-                            deviceOrientation = .portrait
+                            newDeviceOrientation = .portrait
                         }
                         if angle > 0 && angle < 2.05 {
-                            deviceOrientation = .portraitUpsideDown
+                            newDeviceOrientation = .portraitUpsideDown
                         }
                     case .portraitUpsideDown:
                         if angle > 2.66 {
-                            deviceOrientation = .landscapeRight
+                            newDeviceOrientation = .landscapeRight
                         }
                         if angle < 0.48 {
-                            deviceOrientation = .landscapeLeft
+                            newDeviceOrientation = .landscapeLeft
                         }
                     case .portrait:
                         if angle > -0.47 {
-                            deviceOrientation = .landscapeLeft
+                            newDeviceOrientation = .landscapeLeft
                         }
                         if angle < -2.64 {
-                            deviceOrientation = .landscapeRight
+                            newDeviceOrientation = .landscapeRight
                         }
                     default:
                         if angle > -0.47 {
-                            deviceOrientation = .landscapeLeft
+                            newDeviceOrientation = .landscapeLeft
                         }
                         if angle < -2.64 {
-                            deviceOrientation = .landscapeRight
+                            newDeviceOrientation = .landscapeRight
                         }
                     }
                 }
             }
-            if strongSelf.deviceOrientation != deviceOrientation {
-                strongSelf.deviceOrientation = deviceOrientation
-                strongSelf.delegate?.didChange(deviceOrientation: deviceOrientation)
+            if strongSelf.deviceOrientation != newDeviceOrientation {
+                strongSelf.deviceOrientation = newDeviceOrientation
+                strongSelf.delegate?.didChange(orientation: newDeviceOrientation)
             }
         }
     }
 
-    func stopMeasuring() {
+    public func stopMeasuring() {
         motionManager.stopAccelerometerUpdates()
     }
 
-    func currentInterfaceOrientation() -> AVCaptureVideoOrientation {
-        switch deviceOrientation {
-        case .portrait:
-            return .portrait
-        case .landscapeRight:
-            return .landscapeLeft
-        case .landscapeLeft:
-            return .landscapeRight
-        case .portraitUpsideDown:
-            return .portraitUpsideDown
-        default:
-            return .portrait
-        }
+    public func setAccelerometer(Interval: TimeInterval) {
+        motionManager.accelerometerUpdateInterval = Interval
+    }
+
+    public func isMeasuring() -> Bool {
+        motionManager.isAccelerometerActive
     }
 }
-
