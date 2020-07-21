@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "APDeviceOrientation"
-  spec.version      = "0.5"
+  spec.version      = "0.6"
   spec.summary      = "Detect device orientation"
 
   spec.description  = <<-DESC
