@@ -1,9 +1,20 @@
 # APDeviceOrientation
 
+## Requirements
+- iOS 8.0+
+- Swift 5.0
+
 ## Installation
+### CocoaPods
 APDeviceOrientation is available through CocoaPods. To install it, simply add the following line to your Podfile:
 ```bash
 pod 'APDeviceOrientation'
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
 ```
 
 ## Usage
